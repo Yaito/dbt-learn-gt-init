@@ -1,0 +1,36 @@
+models:
+  - name: stg_stripe__payments
+    description: staged payment data from out stripe app
+    columns:
+      - name: payment_id
+        description: the primary key
+        tests: 
+          - not_null
+          - unique
+
+      - name: order_id
+        description: the foreign key to the order table
+        tests:
+          - not_null
+
+      - name: payment_method
+        description: "{{ doc('payment_method') }}"
+        tests:
+          - not_null
+
+      - name: amount
+        description: the amount of the payment in cents
+        tests:
+          - not_null
+
+      - name: status
+        description: "{{ doc('payment_status') }}"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['success', 'fail']
+
+      - name: created_at
+        description: the timestamp of when the payment was created
+        tests:
+          - not_null
